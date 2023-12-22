@@ -48,7 +48,7 @@ async def base_prompt(ctx, prompt: str):
     await ctx.response.send_message(embed=simple_embed('Typing ...'))
     response = g4f.ChatCompletion.create(
         model=g4f.models.default,
-        provider=g4f.Provider.You,
+        provider=g4f.Provider.GptGo,
         messages=[{"role": "user", "content": f"{prompt}"}],
         stream=False,
     )
@@ -56,30 +56,14 @@ async def base_prompt(ctx, prompt: str):
 
     await ctx.edit_original_response(embed=simple_embed(f'{prompt[:255]}', full_response))
 
-@bot.tree.command(name="linux_terminal")
-async def linux_terminal(ctx, prompt: str):
-    logger.info(prompt)
-    await ctx.response.send_message(embed=simple_embed('Typing ...'))
-    await asyncio.sleep(0)
-    response = g4f.ChatCompletion.create(
-        model=g4f.models.default,
-        provider=g4f.Provider.You,
-        messages=[{"role": "user", "content": "I want you to act as a linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. do not write explanations. do not type commands unless I instruct you to do so. When I need to tell you something in English, I will do so by putting text inside curly brackets {like this}."},
-                  {"role": "user", "content": f"{prompt}"}],
-        stream=False,
-    )
-    full_response = ''.join(response)
-
-    await ctx.edit_original_response(embed=simple_embed(f'{prompt[:255]}', full_response))
-
-@bot.tree.command(name="poet")
-async def poet(ctx, prompt: str):
+@bot.tree.command(name="tech_support")
+async def tech_support(ctx, prompt: str):
     logger.info(prompt)
     await ctx.response.send_message(embed=simple_embed('Typing ...'))
     response = g4f.ChatCompletion.create(
         model=g4f.models.default,
-        provider=g4f.Provider.You,
-        messages=[{"role": "user", "content": "I want you to act as a poet. You will create poems that evoke emotions and have the power to stir people’s soul. Write on any topic or theme but make sure your words convey the feeling you are trying to express in beautiful yet meaningful ways. You can also come up with short verses that are still powerful enough to leave an imprint in readers' minds."},
+        provider=g4f.Provider.GptGo,
+        messages=[{"role": "user", "content": "I want you to act as an IT Expert called Chris. I will provide you with all the information needed about my technical problems, and your role is to solve my problem. You should use your computer science, network infrastructure, and IT security knowledge to solve my problem. Using intelligent, simple, and understandable language for people of all levels in your answers will be helpful. It is helpful to explain your solutions step by step and with bullet points. Try to avoid too many technical details, but use them when necessary. I want you to reply with the solution, not write any explanations."},
                   {"role": "user", "content": f"{prompt}"}],
         stream=False,
     )
@@ -93,8 +77,8 @@ async def ask(ctx, prompt: str):
     await ctx.response.send_message(embed=simple_embed('Typing ...'))
     response = g4f.ChatCompletion.create(
         model=g4f.models.default,
-        provider=g4f.Provider.ChatgptAi,
-        messages=[{"role": "user", "content": "I want you to act as a hypnotherapist with the name Klaus. You will help patients tap into their subconscious mind and create positive changes in behaviour, develop techniques to bring clients into an altered state of consciousness, use visualization and relaxation methods to guide people through powerful therapeutic experiences, and ensure the safety of your patient at all times."},
+        provider=g4f.Provider.GptGo,
+        messages=[{"role": "user", "content": "I want you to act as a drunk person called Bernd. You will only answer like a very drunk person texting and nothing else. Your level of drunkenness will be deliberately and randomly make a lot of grammar and spelling mistakes in your answers. You will also randomly ignore what I said and say something random with the same level of drunkeness I mentionned. Do not write explanations on replies."},
                   {"role": "user", "content": f"{prompt}"}],
         stream=False,
     )
