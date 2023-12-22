@@ -46,7 +46,6 @@ async def ping(ctx):
 async def base_prompt(ctx, prompt: str):
     logger.info(prompt)
     await ctx.response.send_message(embed=simple_embed('Typing ...'))
-    await asyncio.sleep(0)
     response = g4f.ChatCompletion.create(
         model=g4f.models.default,
         provider=g4f.Provider.You,
@@ -65,12 +64,44 @@ async def linux_terminal(ctx, prompt: str):
     response = g4f.ChatCompletion.create(
         model=g4f.models.default,
         provider=g4f.Provider.You,
-        messages=[{"role": "user", "content": "I want you to act as a linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. do not write explanations. do not type commands unless I instruct you to do so. When I need to tell you something in English, I will do so by putting text inside curly brackets {like this}. My first command is pwd"},
+        messages=[{"role": "user", "content": "I want you to act as a linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. do not write explanations. do not type commands unless I instruct you to do so. When I need to tell you something in English, I will do so by putting text inside curly brackets {like this}."},
                   {"role": "user", "content": f"{prompt}"}],
         stream=False,
     )
     full_response = ''.join(response)
 
     await ctx.edit_original_response(embed=simple_embed(f'{prompt[:255]}', full_response))
+
+@bot.tree.command(name="poet")
+async def poet(ctx, prompt: str):
+    logger.info(prompt)
+    await ctx.response.send_message(embed=simple_embed('Typing ...'))
+    response = g4f.ChatCompletion.create(
+        model=g4f.models.default,
+        provider=g4f.Provider.You,
+        messages=[{"role": "user", "content": "I want you to act as a poet. You will create poems that evoke emotions and have the power to stir people’s soul. Write on any topic or theme but make sure your words convey the feeling you are trying to express in beautiful yet meaningful ways. You can also come up with short verses that are still powerful enough to leave an imprint in readers' minds."},
+                  {"role": "user", "content": f"{prompt}"}],
+        stream=False,
+    )
+    full_response = ''.join(response)
+
+    await ctx.edit_original_response(embed=simple_embed(f'{prompt[:255]}', full_response))
+
+@bot.tree.command(name="ask")
+async def ask(ctx, prompt: str):
+    logger.info(prompt)
+    await ctx.response.send_message(embed=simple_embed('Typing ...'))
+    response = g4f.ChatCompletion.create(
+        model=g4f.models.default,
+        provider=g4f.Provider.ChatgptAi,
+        messages=[{"role": "user", "content": "I want you to act as a hypnotherapist with the name Klaus. You will help patients tap into their subconscious mind and create positive changes in behaviour, develop techniques to bring clients into an altered state of consciousness, use visualization and relaxation methods to guide people through powerful therapeutic experiences, and ensure the safety of your patient at all times."},
+                  {"role": "user", "content": f"{prompt}"}],
+        stream=False,
+    )
+    full_response = ''.join(response)
+
+    await ctx.edit_original_response(embed=simple_embed(f'{prompt[:255]}', full_response))
+
+
 
 bot.run(str(os.getenv('Token')))
